@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tilt This</title>
+    <link rel="stylesheet" type="text/css" href="tilt.css" />
+    <script src="jquery-1.7.2.min.js"></script>
+    <script src="html2canvas.js"></script>
+    <script src="tilt.js"></script>
+  </head>
+  <body>
+    <h1>Tilt Editor</h1>
+    <div id="controls">
+      <div class="tool color">
+        <span class="tool-title">Color:</span>
+        <select name="tile-type">
+          <option value="div">Blue</option>
+          <option value="p">Grey</option>
+        </select>
+      </div>
+      <div class="tool type">
+        <span class="tool-title">Tool:</span>
+        <input type="radio" name="tool" value="add" checked="true" /> Add
+        <input type="radio" name="tool" value="eraser" /> Eraser
+        <input type="radio" name="tool" value="resize" /> Resize
+        <input type="radio" name="tool" value="move" /> Move
+      </div>
+      <div class="tool">
+        <button id="tile-clear">Clear</button>
+      </div>
+      <div class="tool">
+        <button id="tile-publish">Publish</button>
+      </div>
+    </div>
+    <div id="tilt-editor">
+    </div>
+
+    <span class="b"></span> 
+    <img class="b"></img>
+    <a class="b"></a>
+    <h1 class="b"></h1>
+    <h6 class="b"></h6>
+    <li class="b"></li>
+    <ul class="b"></li>
+    
+  </body>
+</html>
