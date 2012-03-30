@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tilt This</title>
+    <link href="/css/tilt.css" rel="stylesheet" type="text/css" />
+    <script src="/js/jquery-1.7.2.min.js"></script>
+    <script src="/js/html2canvas.js"></script>
+    <script src="/js/tilt.js"></script>
+  </head>
+  <body>
+  Instructions:
+  <ul>
+    <li>In the latest version of Firefox, hit Cmd+Alt+i</li>
+    <li>Click the "3d View" button</li>
+  </ul>
+  
+  {{ html }}
+  </body>
+</html>

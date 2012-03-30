@@ -1,3 +1,5 @@
 express
 redis
 hiredis
+jinjs
+node-uuid

@@ -2,11 +2,26 @@
 TILE_DIMEN = [50, 50];
 EDITOR_SIZE = [10, 10];
 
+THUMB_WIDTH = 200;
+THUMB_HEIGHT = 200;
+
 $(document).ready(function() {
 
     var editor = $('#tilt-editor');
     var mode = 'add';
     var depths;
+
+    function data(el, k, v) {
+        // jquery doesn't actually set the data- attribute when using
+        // data(), so just use that straight. this make it easy to
+        // capture nodes simple with html().
+        if(v !== undefined) {
+            return el.attr('data-' + k, v);
+        }
+        else {
+            return el.attr('data-' + k);
+        }
+    }
 
     function get_depth(x, y) {
         return depths[y][x];
@@ -20,8 +35,8 @@ $(document).ready(function() {
         // Set the z-index on the whole stack to its depth
         $('.tile-bottom').each(function() {
             var el = $(this);
-            var x = el.data('x');
-            var y = el.data('y');
+            var x = data(el, 'x');
+            var y = data(el, 'y');
             el.css('z-index', get_depth(x, y));
         });
     }
@@ -47,10 +62,11 @@ $(document).ready(function() {
         init();
     }
 
-    function publish() {
+    function publish(thumb_w, thumb_h) {
         var offset = editor.offset();
         var dimen = { width: editor.width(),
                       height: editor.height() };
+        editor.removeClass('border');
 
         html2canvas.logging = true;
         var queue = html2canvas.Parse(editor[0]);
@@ -69,25 +85,25 @@ $(document).ready(function() {
         canvas[0].width = dimen.width;
         canvas[0].height = dimen.height;
 
-
-        for(var i=0; i<data.width*data.height*4; i+=4) {
-            var d = data.data;
-            var a = d[i+3]/255;
-            var c = [255, 255, 255];
-
-            d[i] = d[i]*a + c[0]*(1-a);
-            d[i+1] = d[i+1]*a + c[1]*(1-a);
-            d[i+2] = d[i+2]*a + c[2]*(1-a);
-            d[i+3] = 255;
-        }
-
         ctx.putImageData(data, 0, 0);
-        upload_screenshot(canvas[0].toDataURL());
-        canvas.remove();
+        var url = canvas[0].toDataURL();
+
+        canvas[0].width = thumb_w;
+        canvas[0].height = thumb_h;
+
+        var img = document.createElement('img');
+        img.src = url;
+        img.addEventListener('load', function(e) {
+            ctx.drawImage(img, 0, 0, thumb_w, thumb_h);
+            finalize_publish(canvas[0].toDataURL());
+            editor.addClass('border');
+            canvas.remove();
+        });        
     }
 
-    function upload_screenshot(url) {
-        $.post('/screenshot', { james: 'hello world' });
+    function finalize_publish(img) {
+        $.post('/publish', { img: img,
+                             html: editor.html() });
     }
 
     function get_color(tag, depth) {
@@ -119,8 +135,8 @@ $(document).ready(function() {
             el = top.last();
         }
 
-        var x = el.data('x');
-        var y = el.data('y');
+        var x = data(el, 'x');
+        var y = data(el, 'y');
         var depth = get_depth(x, y);
         set_depth(x, y, depth+1);
 
@@ -130,8 +146,8 @@ $(document).ready(function() {
                   position: 'relative',
                   top: '0',
                   left: '0'});
-        tile.data('x', x);
-        tile.data('y', y);
+        data(tile, 'x', x);
+        data(tile, 'y', y);
         el.removeClass('top');
         el.append(tile);
 
@@ -140,8 +156,8 @@ $(document).ready(function() {
     }
 
     function tool_erase(el) {
-        var x = el.data('x');
-        var y = el.data('y');
+        var x = data(el, 'x');
+        var y = data(el, 'y');
         var depth = get_depth(x, y);
 
         if(depth > 1) {
@@ -242,7 +258,9 @@ $(document).ready(function() {
     });
 
     $('#tile-clear').click(clear);
-    $('#tile-publish').click(publish);
+    $('#tile-publish').click(function() {
+        publish(THUMB_WIDTH, THUMB_HEIGHT);
+    });
 
     function dispatch(el, x, y) {
         switch(mode) {
@@ -267,10 +285,10 @@ $(document).ready(function() {
                                   'class="tile-bottom x-' + x + ' y-' + y + '">' +
                                   '</div>');
                     var tile = $('<div class="tile top"></div>');
-                    tile.data('x', x);
-                    tile.data('y', y);
-                    stack.data('x', x);
-                    stack.data('y', y);
+                    data(tile, 'x', x);
+                    data(tile, 'y', y);
+                    data(stack, 'x', x);
+                    data(stack, 'y', y);
                     stack.css('position', 'relative');
                     stack.append(tile);
                     editor.append(stack);
