@@ -39,6 +39,12 @@ h1 {
     display: block;
 }
 
+.tilt-small .tile,
+.tilt-small .tile-bottom {
+    width: 20px;
+    height: 20px;
+}
+
 .breaker {
     clear: both;
     width: 0;

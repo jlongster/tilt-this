@@ -38,8 +38,10 @@
 
     <div class="recent">
     {% for obj in objects %}
-    <a href="/object/{{ obj.id }}">
-      <img src="{{ obj.img }}" />
+    <div class="tilt-small">
+      {{ obj.html }}
+      <!-- <img src="{{ obj.img }}" /> -->
+    </div>
     </a>
     {% endfor %}
     </div>

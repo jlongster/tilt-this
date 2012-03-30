@@ -203,11 +203,11 @@ $(document).ready(function() {
         }
     }
 
-    $('.tile').live('dragstart', function(e) {
+    $('#tilt-editor .tile').live('dragstart', function(e) {
         e.preventDefault();
     });
 
-    $('.tile').live('mousedown', function(e) {
+    $('#tilt-editor .tile').live('mousedown', function(e) {
         var offset = editor.offset();
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -217,7 +217,7 @@ $(document).ready(function() {
                  e.pageY - offset.top);
     });
 
-    $('.tile').live('mouseup', function(e) {
+    $('#tilt-editor .tile').live('mouseup', function(e) {
         tool_drag_stop();
     });
 
@@ -239,7 +239,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.tile-bottom').live('mousedown', function(e) {
+    $('#tilt-editor .tile-bottom').live('mousedown', function(e) {
         e.stopImmediatePropagation();
         dispatch($(this));
     });
