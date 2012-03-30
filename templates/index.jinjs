@@ -3,8 +3,7 @@
   <head>
     <title>Tilt This</title>
     <link href="/css/tilt.css" rel="stylesheet" type="text/css" />
-    <script src="/js/jquery-1.7.2.min.js"></script>
-    <script src="/js/html2canvas.js"></script>
+    <script src="/js/zepto.min.js"></script>
     <script src="/js/tilt.js"></script>
   </head>
   <body>
@@ -38,7 +37,7 @@
 
     <div class="recent">
     {% for obj in objects %}
-    <div class="tilt-small">
+    <div class="tilt-small" data-id="{{ obj.id }}">
       {{ obj.html }}
       <!-- <img src="{{ obj.img }}" /> -->
     </div>

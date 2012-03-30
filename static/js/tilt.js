@@ -11,18 +11,6 @@ $(document).ready(function() {
     var mode = 'add';
     var depths;
 
-    function data(el, k, v) {
-        // jquery doesn't actually set the data- attribute when using
-        // data(), so just use that straight. this make it easy to
-        // capture nodes simple with html().
-        if(v !== undefined) {
-            return el.attr('data-' + k, v);
-        }
-        else {
-            return el.attr('data-' + k);
-        }
-    }
-
     function get_depth(x, y) {
         return depths[y][x];
     }
@@ -35,8 +23,8 @@ $(document).ready(function() {
         // Set the z-index on the whole stack to its depth
         $('.tile-bottom').each(function() {
             var el = $(this);
-            var x = data(el, 'x');
-            var y = data(el, 'y');
+            var x = el.data('x');
+            var y = el.data('y');
             el.css('z-index', get_depth(x, y));
         });
     }
@@ -62,48 +50,8 @@ $(document).ready(function() {
         init();
     }
 
-    function publish(thumb_w, thumb_h) {
-        var offset = editor.offset();
-        var dimen = { width: editor.width(),
-                      height: editor.height() };
-        editor.removeClass('border');
-
-        html2canvas.logging = true;
-        var queue = html2canvas.Parse(editor[0]);
-        var canvas = $(html2canvas.Renderer(queue, {elements: editor[0]}));
-        canvas.css({
-            position: 'absolute', 
-            left: 0, 
-            top: 0,
-            zIndex: 1000
-        }).appendTo(document.body);
-
-        var ctx = canvas[0].getContext('2d');
-        var data = ctx.getImageData(offset.left, offset.top,
-                                    dimen.width, dimen.height);
-
-        canvas[0].width = dimen.width;
-        canvas[0].height = dimen.height;
-
-        ctx.putImageData(data, 0, 0);
-        var url = canvas[0].toDataURL();
-
-        canvas[0].width = thumb_w;
-        canvas[0].height = thumb_h;
-
-        var img = document.createElement('img');
-        img.src = url;
-        img.addEventListener('load', function(e) {
-            ctx.drawImage(img, 0, 0, thumb_w, thumb_h);
-            finalize_publish(canvas[0].toDataURL());
-            editor.addClass('border');
-            canvas.remove();
-        });        
-    }
-
-    function finalize_publish(img) {
-        $.post('/publish', { img: img,
-                             html: editor.html() });
+    function publish() {
+        $.post('/publish', { html: editor.html() });
     }
 
     function get_color(tag, depth) {
@@ -135,8 +83,8 @@ $(document).ready(function() {
             el = top.last();
         }
 
-        var x = data(el, 'x');
-        var y = data(el, 'y');
+        var x = el.data('x');
+        var y = el.data('y');
         var depth = get_depth(x, y);
         set_depth(x, y, depth+1);
 
@@ -146,8 +94,8 @@ $(document).ready(function() {
                   position: 'relative',
                   top: '0',
                   left: '0'});
-        data(tile, 'x', x);
-        data(tile, 'y', y);
+        tile.data('x', x);
+        tile.data('y', y);
         el.removeClass('top');
         el.append(tile);
 
@@ -156,8 +104,8 @@ $(document).ready(function() {
     }
 
     function tool_erase(el) {
-        var x = data(el, 'x');
-        var y = data(el, 'y');
+        var x = el.data('x');
+        var y = el.data('y');
         var depth = get_depth(x, y);
 
         if(depth > 1) {
@@ -258,9 +206,7 @@ $(document).ready(function() {
     });
 
     $('#tile-clear').click(clear);
-    $('#tile-publish').click(function() {
-        publish(THUMB_WIDTH, THUMB_HEIGHT);
-    });
+    $('#tile-publish').click(publish);
 
     function dispatch(el, x, y) {
         switch(mode) {
@@ -285,10 +231,10 @@ $(document).ready(function() {
                                   'class="tile-bottom x-' + x + ' y-' + y + '">' +
                                   '</div>');
                     var tile = $('<div class="tile top"></div>');
-                    data(tile, 'x', x);
-                    data(tile, 'y', y);
-                    data(stack, 'x', x);
-                    data(stack, 'y', y);
+                    tile.data('x', x);
+                    tile.data('y', y);
+                    stack.data('x', x);
+                    stack.data('y', y);
                     stack.css('position', 'relative');
                     stack.append(tile);
                     editor.append(stack);
@@ -299,6 +245,11 @@ $(document).ready(function() {
             }
         }
     }
+
+    $('.tilt-small').click(function() {
+        var id = $(this).data('id');
+        window.location.href = '/object/' + id;
+    });
 
     init();
 });

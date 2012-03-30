@@ -75,14 +75,15 @@ h1 {
 }
 
 .recent {
-    width: 800px;
+    width: 250px;
     margin: 0 auto;
 }
 
-.recent a {
+.tilt-small {
     display: block;
     float: left;
     border: 1px solid grey;
     box-shadow: 0 2px 8px grey;
     margin: 1em;
+    cursor: pointer;
 }

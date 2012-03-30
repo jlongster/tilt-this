@@ -54,8 +54,7 @@ app.get('/object/:id', function(req, res) {
 app.post('/publish', function(req, res) {
     db.incr('next.object.id', function(err, id) {
         db.set('object:' + id, 
-               JSON.stringify({ img: req.body.img,
-                                html: req.body.html,
+               JSON.stringify({ html: req.body.html,
                                 id: id }));
         db.lpush('objects', id);
     });
