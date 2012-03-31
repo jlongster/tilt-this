@@ -7,13 +7,15 @@
     <script src="/js/html2canvas.js"></script>
     <script src="/js/tilt.js"></script>
   </head>
-  <body>
-  Instructions:
-  <ul>
-    <li>In the latest version of Firefox, hit Cmd+Alt+i</li>
-    <li>Click the "3d View" button</li>
-  </ul>
+  <body class="detail">
+    <h1>Instructions</h1>
+    <div class="wrapper">
+      <ul>
+        <li>In the latest version of Firefox, hit Cmd+Alt+i</li>
+        <li>Click the "3d View" button</li>
+      </ul>
   
-  {{ html }}
+      {{ html }}
+    </div>
   </body>
 </html>
