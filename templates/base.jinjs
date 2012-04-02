@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tilt This {% block title %}{% endblock %}</title>
+    <link href="/css/tilt.css" rel="stylesheet" type="text/css" />
+    <script src="/js/zepto.min.js"></script>
+
+    {% block js %}
+    <script src="/js/tilt.js"></script>
+    {% endblock %}
+  </head>
+  <body id="{% block page_id %}page{% endblock %}">
+  {% block content %}{% endblock %}
+  </body>
+</html>

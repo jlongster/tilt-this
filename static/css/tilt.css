@@ -9,24 +9,7 @@ body {
     margin: 0px;
     font-family: Helvetica, Arial, sans-serif;
     background-color: #111;
-}
-
-body.detail .wrapper {
-    width: 525px;
-    margin: 0 auto;
-    color: #ccc;
-}
-
-.left-col {
-    float: left;
-    margin: 10px 10px 10px 20px;
-    width: 525px;
-}
-
-.right-col {
-    float: right;
-    width: 230px;
-    margin: 10px;
+    color: white;
 }
 
 h1 {
@@ -39,16 +22,69 @@ h1 {
     text-shadow: #0881cd 4px 4px 0px;
 }
 
-#tilt-editor {
+.clear {
     clear: both;
+}
+
+.center {
+    text-align: center;
+}
+
+#wrapper {
+    width: 600px;
+    margin: 0 auto;
+    color: #ccc;
+}
+
+#builder #wrapper {
+    width: 700px;
+    overflow: hidden;
+}
+
+#title {
+    margin-bottom: .2em;
+}
+
+#instructions {
+    background-color: #333;
+    padding: .5em 1em;
+    border-radius: 4px;
+}
+
+#instructions img {
+    display: block;
+    margin: 0 auto;
+}
+
+#tagline {
+    font-family: OswaldBold;
+    padding: 0;
+    text-align: center;
+    font-size: 1.25em;
+    color: #cccccc;
+}
+
+.message {
+    background-color: #333;
+    border-radius: 3px;
+    padding: .1em .5em;
+    margin: 1em 0;
+    color: #aaaaaa;
+}
+
+a, a:visited, a:active {
+    color: white;
+}
+
+#tilt-editor {
     position: relative;
-    width: 515px;
-    margin: 1em auto;
+    width: 516px;
+    margin: 0;
 }
 
 #controls {
-    width: 505px;
-    margin: 1em auto;
+    width: 82px;
+    margin-right: 10px;
     overflow: hidden;
     background-color: #333;
     border-radius: 3px;
@@ -59,6 +95,19 @@ h1 {
     font-weight: normal;
 }
 
+#actions {
+    width: 60px;
+    margin-left: 10px;
+}
+
+#actions button {
+    margin-bottom: .5em;
+}
+
+.panel { 
+    float: left;
+}
+
 .border .y-0 {
     border-top: 1px solid grey;
 }
@@ -67,28 +116,36 @@ h1 {
     border-left: 1px solid grey;
 }
 
-.border .tile-bottom {
+.border .tile-bottom,
+.border .tile-bottom-published {
     border-right: 1px solid grey;
     border-bottom: 1px solid grey;
 }
 
-.tile {
+.tile,
+.tile-published {
     background-color: #fff;
 }
 
-.tile, .tile-bottom {
+.tile-published,
+.tile,
+.tile-bottom,
+.tile-bottom-published {
     float: left;
     width: 50px;
     height: 50px;
     margin: 0;
     padding: 0;
     display: block;
+
 }
 
-.tilt-small .tile,
-.tilt-small .tile-bottom {
-    width: 20px;
-    height: 20px;
+
+#viewer .tile,
+#viewer .tile-published,
+#viewer .tile-bottom
+#viewer .tile-bottom-published {
+    background-color: #111;
 }
 
 .breaker {
@@ -97,25 +154,21 @@ h1 {
     height: 0;
 }
 
-.tool.type {
-    float: right;
-}
-
-.tool.color {
-    float: left;
-}
-
 .tool-title {
     display: block;
     border-radius: 3px;
-    float: left;
     margin-right: 5px;
     line-height: 20px;
     font-size: 12px;
     color: #888;
     text-transform: uppercase;
-    background-color: #444;
+
+    /* background-color: #444; */
     padding: 2px 6px 2px 6px;
+}
+
+.tool.type .tool-title {
+    margin-top: 1em;
 }
 
 .tool-wrapper {
@@ -130,19 +183,6 @@ select[name="tile-type"] {
     font-size: 13px;
 }
 
-.actions {
-    display: block;
-    float: left;
-    clear: both;
-    width: 100%;
-    margin-top: 8px;
-}
-
-.actions .tool {
-    float: right;
-    margin-left: 10px;
-}
-
 .b {
     margin: 1em;
     padding: 0;
@@ -152,16 +192,24 @@ select[name="tile-type"] {
     height: 50px;
 }
 
-.recent {
-    width: 250px;
+.recent, .favs {
+    -moz-transform: scale(.3);
+    -moz-transform-origin: 0 0;
+    width: 2400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.recent-section {
+    margin-top: -390px;
 }
 
 .tilt-small {
     display: block;
-    border-radius: 3px;
     float: left;
+    border-radius: 3px;
     border: 3px solid #111;
-    margin: 0px 13px 7px 13px;
+    margin: 40px;
     cursor: pointer;
 }
 
@@ -190,4 +238,15 @@ button {
 
 button:hover {
     background-color: #91caff;
+}
+
+.object-message {
+    text-align: center;
+    font-size: .8em;
+    font-weight: bold;
+    margin-top: 2em;
+}
+
+.object-message .name {
+    color: #999999;
 }

@@ -36,7 +36,29 @@ $(document).ready(function() {
     }
 
     function load() {
-        if(localStorage.tilt_html) { 
+        if(window.location.hash) {
+            var id = window.location.hash.substring(1);
+            $.get('/object-raw/' + id, function(obj) {
+                obj = JSON.parse(obj);
+                editor.html(obj.html);
+                depths = JSON.parse(obj.depths); // Woha double parsing, all the way!
+
+                // Postprocess hack
+                editor.find('.tile-published').each(function() {
+                    var el = $(this);
+                    el.removeClass('tile-published');
+                    el.addClass('tile');
+
+                    el.css('background-color', el.data('color'));
+                });
+                editor.find('.tile-bottom-published').each(function() {
+                    var el = $(this);
+                    el.removeClass('tile-bottom-published');
+                    el.addClass('tile-bottom');
+                });
+            });
+        }
+        if(localStorage.tilt_html) {
             editor.html(localStorage.tilt_html);
             depths = JSON.parse(localStorage.tilt_depths);
             return true;
@@ -45,13 +67,39 @@ $(document).ready(function() {
     }
 
     function clear() {
+        window.location.hash = '';
         localStorage.clear();
         editor.html('');
         init();
     }
 
-    function publish() {
-        $.post('/publish', { html: editor.html() });
+    function publish(name) {
+        // Preprocess hack
+        editor.find('.tile').each(function() {
+            var el = $(this);
+
+            // Set the background color to hide it (hack)
+            var color = el.css('background-color');
+            el.css('background-color', '#111');
+            el.data('color', color);
+
+            // For optimization, don't use the tile class on published tiles
+            el.removeClass('tile');
+            el.addClass('tile-published');
+        });
+        editor.find('.tile-bottom').each(function() {
+            var el = $(this);
+            el.removeClass('tile-bottom');
+            el.addClass('tile-bottom-published');
+        });
+
+        $.post('/publish',
+               { html: editor.html(),
+                 name: name,
+                 depths: JSON.stringify(depths) },
+              function(id) {
+                  window.location = '/object/' + id;
+              });
     }
 
     function get_color(tag, depth) {
@@ -60,7 +108,8 @@ $(document).ready(function() {
 
         switch(tag) {
         case 'div': c = [86, 184, 189]; break;
-        case 'p': c = [153, 153, 153]; break;
+        case 'b': c = [153, 153, 153]; break;
+        case 'span': c = [74, 181, 99]; break;
         default:
             throw 'invalid tag';
         }
@@ -77,7 +126,7 @@ $(document).ready(function() {
 
     function tool_add(el) {
         // We can't assume the top-most tile was clicked since ones
-        // below it can be larger, 
+        // below it can be larger,
         var top = el.find('.tile');
         if(top.length) {
             el = top.last();
@@ -116,7 +165,7 @@ $(document).ready(function() {
         update_depths();
         save();
     }
-    
+
     var drag_el = null;
     function tool_drag_start(el) {
         drag_el = el;
@@ -146,7 +195,7 @@ $(document).ready(function() {
             var top = parseInt(drag_el.css('top'));
             var left = parseInt(drag_el.css('left'));
             drag_el.css({top: top + y, left: left + x});
-            
+
             update_depths();
         }
     }
@@ -192,11 +241,11 @@ $(document).ready(function() {
         dispatch($(this));
     });
 
-    $('input[name=tool]').change(function(){ 
+    $('input[name=tool]').change(function(){
         switch(this.value) {
-        case 'add': 
+        case 'add':
             mode = 'add'; break;
-        case 'eraser': 
+        case 'eraser':
             mode = 'erase'; break;
         case 'resize':
             mode = 'resize'; break;
@@ -206,7 +255,10 @@ $(document).ready(function() {
     });
 
     $('#tile-clear').click(clear);
-    $('#tile-publish').click(publish);
+    $('#tile-publish').click(function() {
+        var name = prompt('Enter your name (optional):');
+        publish(name);
+    });
 
     function dispatch(el, x, y) {
         switch(mode) {
@@ -252,4 +304,11 @@ $(document).ready(function() {
     });
 
     init();
+
+    $('.tile-published').each(function() {
+        var el = $(this);
+        el.css('background-color', el.data('color'));
+    });
+
+    $('input[name=tool][value=add]')[0].checked = true;
 });

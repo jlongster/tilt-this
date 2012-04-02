@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Tilt This</title>
-    <link href="/css/tilt.css" rel="stylesheet" type="text/css" />
-    <script src="/js/jquery-1.7.2.min.js"></script>
-    <script src="/js/html2canvas.js"></script>
-    <script src="/js/tilt.js"></script>
-  </head>
-  <body class="detail">
-    <h1>Instructions</h1>
-    <div class="wrapper">
-      <ul>
-        <li>In the latest version of Firefox, hit Cmd+Alt+i</li>
-        <li>Click the "3d View" button</li>
-      </ul>
+{% extends "base.jinjs" %}
+
+{% block js %}{% endblock %}
+{% block page_id %}viewer{% endblock %}
+
+{% block content %}
+<div id="wrapper">
+  <div class="object-message">
+    There's something on this page... (In Firefox, press Cmd+Alt+i and
+    click "3d"). <a href="/">Go back</a><br />
+    <span class="name">{% if name %}by {{ name }}{% endif %}</span>
+    {% if not voted %}<a href="/vote/{{ id }}" class="like">Vote for this!</a> -- {% endif %}
+    <a href="/#{{ id }}">Edit this!</a>
+  </div>
+
   
-      {{ html }}
-    </div>
-  </body>
-</html>
+  {{ html }}
+</div>
+{% endblock %}

@@ -1,70 +1,79 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Tilt This</title>
-    <link href="/css/tilt.css" rel="stylesheet" type="text/css" />
-    <script src="/js/zepto.min.js"></script>
-    <script src="/js/tilt.js"></script>
-  </head>
-  <body>
-    <div class="left-col">
-      <h1>Tilt Editor</h1>
-      <div id="controls">
-        <div class="tool color">
-          <span class="tool-title">Color</span>
-          <select name="tile-type">
-            <option value="div">Blue</option>
-            <option value="p">Grey</option>
-          </select>
-        </div>
-        <div class="tool type">
-          <span class="tool-title">Tool</span>
-          <div class="tool-wrapper">
-            <label for="add">
-              <input type="radio" name="tool" value="add" checked="true" /> Add
-            </label>
-            <label for="eraser">
-              <input type="radio" name="tool" value="eraser" /> Eraser
-            </label>
-            <label for="resize">
-              <input type="radio" name="tool" value="resize" /> Resize
-            </label>
-            <label for="move">
-              <input type="radio" name="tool" value="move" /> Move
-            </label>
-          </div>
-        </div>
-        <div class="actions">
-          <div class="tool">
-            <button id="tile-clear">Clear</button>
-          </div>
-          <div class="tool">
-            <button id="tile-publish">Publish</button>
-          </div>
-        </div>
-      </div>
-      <div id="tilt-editor" class="border">
-      </div>
-    </div>
+{% extends "base.jinjs" %}
 
-    <div class="right-col">
-      <h1>Recent Tilts</h1>
-      <div class="recent">
-        {% for obj in objects %}
-          <div class="tilt-small" data-id="{{ obj.id }}">
-            {{ obj.html }}
-            <!-- <img src="{{ obj.img }}" /> -->
-          </div>
-          </a>
-        {% endfor %}
-      </div>
-      <!-- <span class="b"></span>  -->
-      <!-- <img class="b"></img> -->
-      <!-- <a class="b"></a> -->
-      <!-- <h1 class="b"></h1> -->
-      <!-- <h6 class="b"></h6> -->
-      <!-- <li class="b"></li> -->
-      <!-- <ul class="b"></li> -->
+{% block page_id %}builder{% endblock %}
+
+{% block content %}
+<div id="wrapper">
+  <h1 id="title">Tilt This</h1>
+  <div id="tagline">
+    Build hidden 3d objects for webpages, only seen with Firefox's Tilt web inspector!
+  </div>
+  
+  <div class="message">
+    <p><a href="/instructions">View the instructions</a> for how to build an
+      object. Fire up Firefox's "3d View" inspector (Cmd+Alt+i and hit
+      the "3d View" button) to test it. Hit "Publish" to get the HTML and also
+      share it.</p>
+  </div>
+
+  <div id="controls" class="panel">
+    <div class="tool color">
+      <span class="tool-title">Color</span>
+      <select name="tile-type">
+        <option value="div">Teal</option>
+        <option value="b">Grey</option>
+        <option value="span">Green</option>
+      </select>
     </div>
-  </body>
-</html>
+    <div class="tool type">
+      <span class="tool-title">Tool</span>
+      <div class="tool-wrapper">
+        <label for="add">
+          <input type="radio" name="tool" value="add" checked="true" /> Add
+        </label>
+        <label for="eraser">
+          <input type="radio" name="tool" value="eraser" /> Eraser
+        </label>
+        <label for="resize">
+          <input type="radio" name="tool" value="resize" /> Resize
+        </label>
+        <label for="move">
+          <input type="radio" name="tool" value="move" /> Move
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div id="tilt-editor" class="border panel">
+  </div>
+
+  <div id="actions" class="panel">
+    <button id="tile-clear">Clear</button>
+    <button id="tile-publish">Publish</button>
+  </div>
+ 
+  <div class="clear"></div>
+
+  <h1>Favorites</h1>
+  <div class="favs">
+    {% for obj in favs %}
+    <div class="tilt-small" data-id="{{ obj.id }}">
+      {{ obj.html }}
+      <!-- <img src="{{ obj.img }}" /> -->
+    </div>    
+    {% endfor %}
+  </div>
+
+  <div class="recent-section">
+    <h1>Recent Tilts</h1>
+    <div class="recent">
+      {% for obj in objects %}
+      <div class="tilt-small" data-id="{{ obj.id }}">
+        {{ obj.html }}
+        <!-- <img src="{{ obj.img }}" /> -->
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
