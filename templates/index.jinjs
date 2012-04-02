@@ -14,10 +14,11 @@
   </div>
   
   <div class="message">
-    <p><a href="/instructions">View the instructions</a> for how to build an
-      object. Fire up Firefox's "3d View" inspector (Cmd+Alt+i and hit
-      the "3d View" button) to test it. Hit "Publish" to get the HTML and also
-      share it.</p>
+    <p><a href="/instructions">View the instructions</a> for how to
+      build an object. Fire up
+      Firefox's <a href="http://hacks.mozilla.org/2011/12/new-developer-tools-in-firefox-11-aurora/">3d
+      web inspector</a> (Cmd+Alt+i and hit the "3d" button) to
+      test it. Hit "Publish" to get the HTML and also share it.</p>
   </div>
 
   <div id="controls" class="panel">

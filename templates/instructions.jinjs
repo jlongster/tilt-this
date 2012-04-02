@@ -11,13 +11,13 @@
       <a href="/">Don't care about instructions? Skip to the builder!</a>
     </p>
 
-    <p>
-      Firefox's Tilt web inspector shows you a 3d representation of a
+    <p> <a
+      href="http://hacks.mozilla.org/2011/12/new-developer-tools-in-firefox-11-aurora/">Firefox's
+      Tilt web inspector</a> shows you a 3d representation of a
       webpage. This is cool because you can quickly see how the DOM
       elements are stacked together. It's also cool because you can
-      embed hidden 3d objects in the page that only appear when Tilt is
-      used.
-    </p>
+      embed hidden 3d objects in the page that only appear when Tilt
+      is used. </p>
 
     <img src="/images/screenshot.png"><img>
     
